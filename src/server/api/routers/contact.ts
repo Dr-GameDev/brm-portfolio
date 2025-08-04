@@ -12,8 +12,8 @@ export const contactRouter = createTRPCRouter({
             })
         )
         .mutation(async ({ input }) => {
-            // Here you would integrate with your preferred email service
-            // (Resend, SendGrid, Nodemailer, etc.)
+            // Here I will integrate with my preferred email service
+            // (Resend)
             console.log("Contact form submission:", input);
 
             // For now, just return success
