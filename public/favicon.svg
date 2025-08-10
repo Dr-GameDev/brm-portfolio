@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1265.34 1071.7">
+  <g id="Layer_1-2" data-name="Layer 1">
+    <g>
+      <rect x=".5" y=".5" width="1264.34" height="1070.7" style="fill: #fff; stroke: #686868; stroke-miterlimit: 10;"/>
+      <g>
+        <g>
+          <rect x="651.74" y="256.4" width="342.49" height="342.49" style="fill: #231f20; stroke-width: 0px;"/>
+          <rect x="249.36" y="256.4" width="342.49" height="342.49" style="fill: #231f20; stroke-width: 0px;"/>
+        </g>
+        <path d="M994.23,824.6c-222.08,161.35-522.79,161.35-744.87,0v-106.21h744.87v106.21Z" style="fill: #231f20; stroke-width: 0px;"/>
+      </g>
+    </g>
+  </g>
+</svg>
