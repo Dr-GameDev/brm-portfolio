@@ -184,7 +184,7 @@ const Projects: React.FC = () => {
                         ref={titleRef}
                         className="text-6xl md:text-8xl font-black mb-8 font-display text-engine"
                     >
-                        PROJECTS
+                        PROJECTS.
                     </h2>
                     <div className="w-32 h-1 bg-gradient-to-r from-crimson-red to-electric-blue mx-auto mb-8" />
                     <p className="text-xl text-crimson-gray font-mono max-w-3xl mx-auto">

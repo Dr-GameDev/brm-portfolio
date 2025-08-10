@@ -15,7 +15,7 @@ export default function Home() {
   return (
     <HydrateClient>
       <LoadingWrapper>
-        <div className="bg-crimson-black text-black min-h-screen overflow-x-hidden">
+        <div className="bg-crimson-black text-white min-h-screen overflow-x-hidden">
           {/* Custom Cursor */}
           <CustomCursor />
 
