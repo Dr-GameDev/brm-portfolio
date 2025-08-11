@@ -140,7 +140,7 @@ const Hero: React.FC = () => {
             </div>
 
             {/* Scroll Indicator */}
-            <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 animate-bounce flex flex-col items-center">
                 <div className="w-8 h-16 border-2 border-crimson-red rounded-full flex justify-center relative">
                     <div className="w-1 h-4 bg-crimson-red rounded-full mt-3 animate-pulse" />
 
