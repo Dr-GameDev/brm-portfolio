@@ -1,6 +1,12 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+if (typeof window !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+}
 
 interface Testimonial {
     id: number;
@@ -72,28 +78,26 @@ const testimonialsData: Testimonial[] = [
 
 const Testimonials = () => {
     const sectionRef = useRef<HTMLElement>(null);
+    const titleRef = useRef<HTMLHeadingElement>(null);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
     useEffect(() => {
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+        if (!titleRef.current) return;
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-fade-in-up');
-                }
-            });
-        }, observerOptions);
-
-        if (sectionRef.current) {
-            observer.observe(sectionRef.current);
-        }
-
-        return () => observer.disconnect();
+        gsap.fromTo(titleRef.current,
+            { y: 100, opacity: 0 },
+            {
+                y: 0,
+                opacity: 1,
+                duration: 1,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: titleRef.current,
+                    start: 'top 80%',
+                },
+            }
+        );
     }, []);
 
     useEffect(() => {
@@ -125,7 +129,7 @@ const Testimonials = () => {
         return Array.from({ length: 5 }, (_, i) => (
             <span
                 key={i}
-                className={`text-xl ${i < rating ? 'text-yellow-400' : 'text-gray-600'}`}
+                className={`text-xl ${i < rating ? 'text-electric-blue' : 'text-gray-600'}`}
             >
                 ★
             </span>
@@ -136,32 +140,53 @@ const Testimonials = () => {
         <section
             ref={sectionRef}
             id="testimonials"
-            className="relative min-h-screen bg-gradient-to-br from-black via-gray-950 to-black py-20 px-6 overflow-hidden opacity-0 transform translate-y-8"
+            className="relative min-h-screen bg-crimson-black py-20 px-6 overflow-hidden"
         >
+            {/* Background Grid */}
+            <div className="absolute inset-0 bg-grid-pattern bg-grid opacity-10" />
+
             {/* Background Effects */}
             <div className="absolute inset-0 overflow-hidden">
-                <div className="absolute top-32 left-20 w-36 h-36 border border-cyan-500/20 rotate-45 animate-pulse"></div>
-                <div className="absolute bottom-20 right-24 w-28 h-28 border border-green-400/20 rotate-12 animate-bounce"></div>
-                <div className="absolute top-1/2 left-1/3 w-24 h-24 bg-gradient-to-r from-green-400/10 to-cyan-400/10 rotate-45 animate-spin-slow"></div>
+                <div className="absolute top-32 left-20 w-36 h-36 border border-electric-blue/20 rotate-45 animate-float"></div>
+                <div className="absolute bottom-20 right-24 w-28 h-28 border border-crimson-red/20 rotate-12 animate-spin-slow"></div>
+                <div className="absolute top-1/2 left-1/3 w-24 h-24 bg-gradient-to-r from-electric-green/10 to-electric-purple/10 rotate-45 animate-pulse"></div>
+            </div>
+
+            {/* Scan lines */}
+            <div className="absolute inset-0 pointer-events-none">
+                <div className="absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-electric-blue to-transparent animate-scan opacity-60" />
+                <div className="absolute top-3/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-crimson-red to-transparent animate-scan opacity-40"
+                    style={{ animationDelay: '2s' }} />
             </div>
 
             <div className="max-w-7xl mx-auto relative z-10">
                 {/* Section Header */}
                 <div className="text-center mb-16">
-                    <h2 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-green-400 via-cyan-400 to-green-400 bg-clip-text text-transparent mb-6">
-                        TESTIMONIALS
+                    <h2
+                        ref={titleRef}
+                        className="text-6xl md:text-8xl font-black mb-8 font-display text-engine"
+                    >
+                        TESTIMONIALS.
                     </h2>
-                    <div className="w-24 h-1 bg-gradient-to-r from-green-400 to-cyan-400 mx-auto mb-8"></div>
-                    <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-                        What clients say about working with me across web development, networking, and design projects
+                    <div className="w-32 h-1 bg-gradient-to-r from-crimson-red to-electric-blue mx-auto mb-8"></div>
+                    <p className="text-xl text-crimson-gray max-w-3xl mx-auto font-mono">
+                        &gt; CLIENT FEEDBACK ACROSS WEB DEVELOPMENT, NETWORKING, AND DESIGN PROJECTS
                     </p>
                 </div>
 
                 {/* Main Testimonial Display */}
                 <div className="relative max-w-4xl mx-auto mb-12">
-                    <div className="relative bg-gradient-to-br from-gray-900/50 to-black/50 rounded-2xl p-8 md:p-12 border border-gray-800 hover:border-green-400/50 transition-all duration-500">
-                        {/* Quote Icon */}
-                        <div className="absolute top-6 left-6 text-6xl text-green-400/30 font-serif">"</div>
+                    <div className="relative bg-crimson-dark/30 backdrop-blur-lg border border-crimson-red/20 p-8 md:p-12 hover:border-crimson-red transition-all duration-500 group perspective-1000">
+                        {/* Tech corner indicators */}
+                        <div className="absolute top-4 left-4 flex space-x-1">
+                            <div className="w-2 h-2 bg-electric-green animate-pulse" />
+                            <div className="w-2 h-2 bg-electric-blue animate-pulse" style={{ animationDelay: '0.5s' }} />
+                            <div className="w-2 h-2 bg-crimson-red animate-pulse" style={{ animationDelay: '1s' }} />
+                        </div>
+
+                        {/* Quote markers */}
+                        <div className="absolute top-6 right-6 text-4xl text-crimson-red/30 font-mono">&gt;&gt;</div>
+                        <div className="absolute bottom-6 left-6 text-4xl text-electric-blue/30 font-mono">&lt;&lt;</div>
 
                         {/* Testimonial Content */}
                         <div className="relative z-10 pt-8">
@@ -169,51 +194,54 @@ const Testimonials = () => {
                                 {renderStars(testimonialsData[currentIndex]?.rating ?? 0)}
                             </div>
 
-                            <blockquote className="text-xl md:text-2xl text-gray-300 leading-relaxed mb-8 italic">
-                                {testimonialsData[currentIndex]?.content}
+                            <blockquote className="text-xl md:text-2xl text-crimson-bright leading-relaxed mb-8 font-mono">
+                                &gt; {testimonialsData[currentIndex]?.content}
                             </blockquote>
 
-                            <div className="flex items-center justify-between">
+                            <div className="flex items-center justify-between border-t border-crimson-red/20 pt-6">
                                 <div>
-                                    <div className="text-lg font-semibold text-white">
+                                    <div className="text-lg font-bold text-white font-display uppercase tracking-wider">
                                         {testimonialsData[currentIndex]?.name}
                                     </div>
-                                    <div className="text-green-400 font-medium">
+                                    <div className="text-crimson-red font-medium font-mono">
                                         {testimonialsData[currentIndex]?.role}
                                     </div>
-                                    <div className="text-gray-400">
+                                    <div className="text-crimson-gray font-mono">
                                         {testimonialsData[currentIndex]?.company}
                                     </div>
                                 </div>
 
                                 <div className="text-right">
-                                    <div className="text-sm text-cyan-400 font-medium uppercase tracking-wide">
-                                        Project
+                                    <div className="text-sm text-electric-blue font-medium uppercase tracking-wider font-mono">
+                                        PROJECT
                                     </div>
-                                    <div className="text-gray-300">
+                                    <div className="text-crimson-bright font-mono">
                                         {testimonialsData[currentIndex]?.project}
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Gradient overlay effect */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-green-400/5 to-cyan-400/5 rounded-2xl opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+                        {/* Hologram overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-crimson-red/10 via-transparent to-electric-blue/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                        {/* Scan line effect */}
+                        <div className="absolute top-0 left-0 w-full h-1 bg-white opacity-60 animate-scan" />
                     </div>
 
                     {/* Navigation Arrows */}
                     <button
                         onClick={prevTestimonial}
-                        className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-gray-800 hover:bg-green-400 text-white hover:text-black rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
+                        className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-transparent border-2 border-crimson-red hover:bg-crimson-red text-crimson-red hover:text-crimson-black transition-all duration-300 hover:scale-110 font-mono font-bold"
                     >
-                        ←
+                        &lt;
                     </button>
 
                     <button
                         onClick={nextTestimonial}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-gray-800 hover:bg-cyan-400 text-white hover:text-black rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110"
+                        className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-transparent border-2 border-electric-blue hover:bg-electric-blue text-electric-blue hover:text-crimson-black transition-all duration-300 hover:scale-110 font-mono font-bold"
                     >
-                        →
+                        &gt;
                     </button>
                 </div>
 
@@ -223,9 +251,9 @@ const Testimonials = () => {
                         <button
                             key={index}
                             onClick={() => goToSlide(index)}
-                            className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentIndex
-                                    ? 'bg-gradient-to-r from-green-400 to-cyan-400 scale-125'
-                                    : 'bg-gray-600 hover:bg-gray-500'
+                            className={`w-4 h-4 border transition-all duration-300 ${index === currentIndex
+                                    ? 'bg-crimson-red border-crimson-red scale-125'
+                                    : 'bg-transparent border-crimson-red/50 hover:border-crimson-red hover:bg-crimson-red/20'
                                 }`}
                         />
                     ))}
@@ -233,75 +261,63 @@ const Testimonials = () => {
 
                 {/* Stats Grid */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                    <div className="text-center p-6 bg-gradient-to-br from-gray-900/30 to-black/30 rounded-lg border border-gray-800">
-                        <div className="text-3xl font-bold bg-gradient-to-r from-green-400 to-cyan-400 bg-clip-text text-transparent">
+                    <div className="text-center p-6 bg-crimson-dark/30 backdrop-blur-lg border border-electric-green/20 group hover:border-electric-green transition-all duration-300">
+                        <div className="text-3xl font-bold bg-gradient-to-r from-electric-green to-electric-blue bg-clip-text text-transparent font-display">
                             {testimonialsData.length}
                         </div>
-                        <div className="text-gray-400 text-sm uppercase tracking-wide">Happy Clients</div>
+                        <div className="text-crimson-gray text-sm uppercase tracking-wider font-mono">Happy Clients</div>
+                        <div className="absolute inset-0 bg-electric-green opacity-0 group-hover:opacity-5 transition-opacity duration-500" />
                     </div>
 
-                    <div className="text-center p-6 bg-gradient-to-br from-gray-900/30 to-black/30 rounded-lg border border-gray-800">
-                        <div className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-green-400 bg-clip-text text-transparent">
+                    <div className="text-center p-6 bg-crimson-dark/30 backdrop-blur-lg border border-electric-blue/20 group hover:border-electric-blue transition-all duration-300">
+                        <div className="text-3xl font-bold bg-gradient-to-r from-electric-blue to-crimson-red bg-clip-text text-transparent font-display">
                             5.0
                         </div>
-                        <div className="text-gray-400 text-sm uppercase tracking-wide">Average Rating</div>
+                        <div className="text-crimson-gray text-sm uppercase tracking-wider font-mono">Average Rating</div>
+                        <div className="absolute inset-0 bg-electric-blue opacity-0 group-hover:opacity-5 transition-opacity duration-500" />
                     </div>
 
-                    <div className="text-center p-6 bg-gradient-to-br from-gray-900/30 to-black/30 rounded-lg border border-gray-800">
-                        <div className="text-3xl font-bold bg-gradient-to-r from-green-400 to-cyan-400 bg-clip-text text-transparent">
+                    <div className="text-center p-6 bg-crimson-dark/30 backdrop-blur-lg border border-electric-purple/20 group hover:border-electric-purple transition-all duration-300">
+                        <div className="text-3xl font-bold bg-gradient-to-r from-electric-purple to-crimson-red bg-clip-text text-transparent font-display">
                             98%
                         </div>
-                        <div className="text-gray-400 text-sm uppercase tracking-wide">Client Satisfaction</div>
+                        <div className="text-crimson-gray text-sm uppercase tracking-wider font-mono">Client Satisfaction</div>
+                        <div className="absolute inset-0 bg-electric-purple opacity-0 group-hover:opacity-5 transition-opacity duration-500" />
                     </div>
 
-                    <div className="text-center p-6 bg-gradient-to-br from-gray-900/30 to-black/30 rounded-lg border border-gray-800">
-                        <div className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-green-400 bg-clip-text text-transparent">
+                    <div className="text-center p-6 bg-crimson-dark/30 backdrop-blur-lg border border-crimson-red/20 group hover:border-crimson-red transition-all duration-300">
+                        <div className="text-3xl font-bold bg-gradient-to-r from-crimson-red to-electric-blue bg-clip-text text-transparent font-display">
                             100%
                         </div>
-                        <div className="text-gray-400 text-sm uppercase tracking-wide">Project Success</div>
+                        <div className="text-crimson-gray text-sm uppercase tracking-wider font-mono">Project Success</div>
+                        <div className="absolute inset-0 bg-crimson-red opacity-0 group-hover:opacity-5 transition-opacity duration-500" />
                     </div>
                 </div>
 
                 {/* Auto-play indicator */}
                 {isAutoPlaying && (
                     <div className="text-center mt-8">
-                        <div className="inline-flex items-center gap-2 text-sm text-gray-500">
-                            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                            Auto-playing testimonials
+                        <div className="inline-flex items-center gap-2 text-sm text-crimson-gray font-mono">
+                            <div className="w-2 h-2 bg-electric-green animate-pulse"></div>
+                            <span className="uppercase tracking-wider">AUTO-CYCLING TESTIMONIALS</span>
                         </div>
                     </div>
                 )}
+
+                {/* Status indicators */}
+                <div className="text-center mt-12">
+                    <div className="flex items-center justify-center space-x-8 font-mono text-sm">
+                        <div className="flex items-center space-x-2">
+                            <div className="w-2 h-2 bg-electric-green animate-pulse" />
+                            <span className="text-crimson-gray uppercase tracking-wider">CLIENT DATA LOADED</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <div className="w-2 h-2 bg-crimson-red animate-pulse" />
+                            <span className="text-crimson-gray uppercase tracking-wider">TESTIMONIALS ACTIVE</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <style jsx>{`
-        @keyframes fade-in-up {
-          from {
-            opacity: 0;
-            transform: translateY(2rem);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes spin-slow {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
-        }
-
-        .animate-fade-in-up {
-          animation: fade-in-up 0.8s ease-out forwards;
-        }
-
-        .animate-spin-slow {
-          animation: spin-slow 12s linear infinite;
-        }
-      `}</style>
         </section>
     );
 };

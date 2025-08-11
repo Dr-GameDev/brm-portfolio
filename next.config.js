@@ -5,6 +5,8 @@
 import "./src/env.js";
 
 /** @type {import("next").NextConfig} */
-const config = {};
+const config = {
+    allowedDevOrigins: ['192.168.0.104:3000'],
+};
 
 export default config;

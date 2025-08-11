@@ -40,9 +40,9 @@ const contactInfo: ContactInfo[] = [
   },
   {
     icon: '💼',
-    label: 'LinkedIn',
-    value: 'linkedin.com/in/babalo-majiyezi',
-    link: 'https://linkedin.com/in/your-profile'
+    label: 'Instagram',
+    value: 'instagram.com/babalomajiyezi',
+    link: 'https://instagram.com/babalomajiyezi'
   }
 ];
 
@@ -307,10 +307,10 @@ const Contact = () => {
                     className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-green-400 transition-colors duration-300"
                   >
                     <option value="">Select Budget</option>
-                    <option value="under-5k">Under $5,000</option>
-                    <option value="5k-10k">$5,000 - $10,000</option>
-                    <option value="10k-25k">$10,000 - $25,000</option>
-                    <option value="25k-plus">$25,000+</option>
+                    <option value="under-5k">Under R5,000</option>
+                    <option value="5k-10k">R5,000 - R10,000</option>
+                    <option value="10k-25k">R10,000 - R25,000</option>
+                    <option value="25k-plus">R25,000+</option>
                   </select>
                 </div>
 
@@ -383,24 +383,7 @@ const Contact = () => {
           </div>
         </div>
 
-        {/* Additional CTA Section */}
-        <div className="mt-20 text-center">
-          <div className="bg-gradient-to-br from-gray-900/30 to-black/30 rounded-2xl p-8 border border-gray-800">
-            <h3 className="text-2xl font-bold text-white mb-4">Ready to Get Started?</h3>
-            <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
-              Let's schedule a free consultation to discuss your project and explore how my expertise
-              in web development, networking, and design can help achieve your goals.
-            </p>
-            <a
-              href="https://calendly.com/your-calendar" // Replace with your actual calendar link
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-cyan-400 to-green-400 text-black font-semibold rounded-lg hover:from-cyan-300 hover:to-green-300 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-cyan-400/25"
-            >
-              📅 Schedule Free Consultation
-            </a>
-          </div>
-        </div>
+        
       </div>
 
       <style jsx>{`
